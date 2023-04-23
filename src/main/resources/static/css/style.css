@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital@0;1&display=swap');
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background: linear-gradient(45deg, #49a09d, #5f2c82);
+    font-family: 'Lato', sans-serif;
+    font-weight: 100;
+}
+.btn{
+    width: 100px;
+    height: 40px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    background-color: rgba(255,255,255,0.2);
+    color: #fff;
+    font-weight: bold;
+    position: absolute;
+    top: 10%;
+    left: 80%;
+    cursor: pointer;
+}
+.btn:hover{
+    border: 1px solid white;
+}
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+table {
+    width: 800px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+th,
+td {
+    padding: 15px;
+    background-color: rgba(255,255,255,0.2);
+    color: #fff;
+}
+a{
+    text-decoration: none;
+    color: white;
+    transition: 0.3ms ease-in-out;
+}
+
+a:hover{
+    color: #5f2c82;
+    transition: 0.3ms ease-in-out;
+}
+
+.category_name{
+    font-size: 50px;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+}
+
+th {
+    background-color: #55608f;
+}
+td{
+    text-align: center;
+}
+
+td:hover {
+     background-color: rgba(255,255,255,0.3);
+ }
+.sum_product{
+    font-size: 25px;
+    color: white;
+    font-weight: bold;
+    text-align: right;
+    margin-top: 20px;
+}
+
+
+
