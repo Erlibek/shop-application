@@ -13,13 +13,22 @@ public class SecurityConfig {
         http.csrf().disable();
 
         http.authorizeHttpRequests(authorizationConfigurer -> {
-            authorizationConfigurer.
-                    requestMatchers("/security_controller/second_resource")
-                    .authenticated();
+            authorizationConfigurer.requestMatchers("/cart/**").authenticated();
+            authorizationConfigurer.requestMatchers("/order/**").authenticated();
+            authorizationConfigurer.requestMatchers("/profile/**").authenticated();
+
+
+            authorizationConfigurer.requestMatchers("/moderation/**").hasRole("admin");
+            authorizationConfigurer.requestMatchers("/admin/**").hasRole("admin");
             authorizationConfigurer.anyRequest().permitAll();
         });
 
-        http.formLogin();
+        http
+                .formLogin()
+                .loginPage("/login")
+                .usernameParameter("login")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/products");
         return http.build();
     }
 }

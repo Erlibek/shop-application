@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link  th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+    <th:block th:if="${#authorization.expr('isAuthenticated()')}">
+        <nav>
+            <ul class="topmenu">
+                <li><a  th:href="@{/profile}">Моя личная страница&nbsp;<i class="fa-solid fa-user"></i></a></li>
+                <li><a  th:href="@{/cart/cart_page}">Корзина<i class="fa-solid fa-cart-shopping"></i></a></li>
+                <li>
+                    <a sec:authorize="hasRole('admin')" th:href="@{/moderation/products}">Админ панель</a>
+                </li>
+                <li><a th:href="@{/logout}">Выйти</a></li>
+            </ul>
+        </nav>
+    </th:block>
+
+    <div class="return">
+        <a class="return-link" th:href="@{/profile}"> &#9668; Назад </a>
+    </div>
+    <h3 class="order-title">Информация о заказе</h3>
+
+    <p class="order-number">Номер заказа: #<span th:text="${order.getId()}"></span></p>
+    <p class="personal_text">Статус заказа: <span th:text="${order.getStatus().getDisplayStatusName()}"></span></p>
+
+    <div  th:each="product: ${order.getOrderProducts()}" class="mb-4">
+        <h2>Заказ:</h2>
+        <p class="personal_text">Название продукта: <span th:text="${product.getProduct().getName()}"></span></p>
+        <p class="personal_text">Улица: <span th:text="${order.getAddress()}"></span></p>
+        <p class="personal_text">Дата оформления: <span th:text="${order.getDate()}"></span></p>
+        <p class="personal_text">Cтоимость: <span th:text="${product.getProduct().getPrice()}">тенге</span></p>
+        <p class="personal_text">Количество: <span th:text="${product.getProductCount()}">тенге</span></p>
+    </div>
+
+    <p class="full-price">Общая сумма: <span th:text="${sumOrders}"></span></p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

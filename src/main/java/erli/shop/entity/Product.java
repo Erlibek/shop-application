@@ -1,14 +1,19 @@
 package erli.shop.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
 @Entity // Нам нужна чтобы hibernate воспринимал наш класс как сущность
 @Table(name = "products") // нам нужна чтобы сушность была подвязана какой то таблице
 public class Product {
     @Id // служит для обозначения первичного ключа
-    @GeneratedValue(strategy = GenerationType.IDENTITY)// генерация значения поля переводится на базу данных, hibernate за это не отвечает
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+// генерация значения поля переводится на базу данных, hibernate за это не отвечает
     private Long id;
 
     @ManyToOne
@@ -31,35 +36,7 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
+    @OneToMany(mappedBy = "product")
+    private List<CartItem> cartItems;
 }

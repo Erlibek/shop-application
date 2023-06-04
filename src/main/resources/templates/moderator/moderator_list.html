@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Модерация</title>
+    <link  th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <th:block th:if="${#authorization.expr('isAuthenticated()')}">
+        <nav>
+            <ul class="topmenu">
+                <li><a  th:href="@{/profile}">Моя личная страница&nbsp;<i class="fa-solid fa-user"></i></a></li>
+                <li><a  th:href="@{/cart/cart_page}">Корзина<i class="fa-solid fa-cart-shopping"></i></a></li>
+                <li>
+                    <a sec:authorize="hasRole('admin')" th:href="@{/products}">Админ панель</a>
+                </li>
+                <li><a th:href="@{/logout}">Выйти</a></li>
+            </ul>
+        </nav>
+    </th:block>
+    <div class="table-container">
+        <div class="return">
+            <a class="return-link" th:href="@{/products}"> &#9668; Назад</a>
+        </div>
+
+        <div  class="product-box" th:each="review:${reviewList}">
+            <p class="review_text">Имя пользователя: <span th:text="${review.getUser().getName()}"></span></p>
+            <p  class="review_text">Номер комментария: <span th:text="${review.getId()}"></span></p>
+            <p class="review_text">Текст комментария: <span th:text="${review.getText()}"></span></p>
+            <p class="review_text">Опубликован:
+                <span th:if="${review.getPublished() == false}">Нет</span>
+                <span th:if="${review.getPublished() == true}">Да</span>
+            </p>
+            <a class="review-link" th:if="${review.getPublished() == false}" th:href="@{/admin/reviews/add(commentId=${review.getId()},moderation=true)}">Опубликовать</a>
+            <a class="review-link"  th:href="@{/admin/reviews/delete(commentId=${review.getId()})}">Удалить</a>
+        </div>
+
+        <div th:if="${reviewList.isEmpty()}"><h2>В данный момент нет комментариев</h2></div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

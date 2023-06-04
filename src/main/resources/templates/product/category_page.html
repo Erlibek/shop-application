@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <th:block th:if="${#authorization.expr('isAuthenticated()')}">
+        <nav>
+            <ul class="topmenu">
+                <li><a  th:href="@{/profile}">Моя личная страница&nbsp;<i class="fa-solid fa-user"></i></a></li>
+                <li><a  th:href="@{/cart/cart_page}">Корзина<i class="fa-solid fa-cart-shopping"></i></a></li>
+                <li> <a class="product_name" th:href="@{/products}">Страница продуктов</a></li>
+                <li><a href="" class="down">Панель админа</a>
+                    <ul class="submenu">
+                        <li><a th:href="@{/admin/reviews}">Модерация комментария</a></li>
+                        <li> <a  th:href="@{/admin/orders}">Модерация заказа</a></li>
+                        <li> <a th:href="@{/moderation/create}">Добавить продукт</a></li>
+                    </ul>
+                </li>
+                <li><a th:href="@{/logout}">Выйти</a></li>
+            </ul>
+        </nav>
+    </th:block>
+    <h3 class="category_name" th:text="${categories.getName()}"></h3>
+    <div class="table-container">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Номер</th>
+                <th scope="col">Название</th>
+                <th scope="col">Цена</th>
+                <th scope="col">Редактировать</th>
+                <th scope="col">Удалить</th>
+            </tr>
+            </thead>
+            <tbody th:each="product:${categories.getProducts()}">
+            <tr>
+                <td th:text="${product.getId()}"></td>
+                <td>
+                    <a th:href="@{/moderation/product_page/{id}(id = ${product.getId()})}">
+                        <span th:text="${product.getName()}"></span>
+                    </a>
+                </td>
+                <td th:text="${product.getPrice()}"></td>
+                <td>
+                    <a th:href="@{/moderation/update_product(productId = ${product.getId()})}"><i class="fa-regular fa-pen-to-square"></i>
+                    </a></td>
+                <td><a href="#"><i class="fa-solid fa-x"></i></a></td>
+            </tr>
+            </tbody>
+        </table>
+        <h3 class="sum_product">Общая стоимость: <b th:text="${price}"></b></h3>
+    </div>
+</div>
+    <script src="https://kit.fontawesome.com/a12b3513d4.js" crossorigin="anonymous"></script>
+</body>
+</html>

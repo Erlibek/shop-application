@@ -1,11 +1,14 @@
 package erli.shop.entity;
 
-import erli.shop.entity.Product;
-import erli.shop.entity.User;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
+
+@Getter
+@Setter
 @Entity
 @Table(name = "reviews")
 public class Review {
@@ -30,5 +33,5 @@ public class Review {
     private String text;
 
     @Column(name = "created_date")
-    private LocalDateTime date;
+    private LocalDate date;
 }

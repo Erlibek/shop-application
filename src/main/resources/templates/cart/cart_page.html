@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link  th:href="@{/css/style.css}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <th:block th:if="${#authorization.expr('isAuthenticated()')}">
+        <nav>
+            <ul class="topmenu">
+                <li><a  th:href="@{/profile}">Моя личная страница&nbsp;<i class="fa-solid fa-user"></i></a></li>
+                <li><a class="product_name" th:href="@{/products}">Страница продуктов</a></li>
+                <li><a th:href="@{/logout}">Выйти</a></li>
+            </ul>
+        </nav>
+    </th:block>
+    <div class="return">
+        <a class="return-link" th:href="@{/products}"> &#9668; Назад</a>
+    </div>
+    <div class="table-container">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Номер пользователя</th>
+                <th scope="col">Название</th>
+                <th scope="col">Цена</th>
+                <th scope="col">Количество</th>
+                <th scope="col">Удалить</th>
+            </tr>
+            </thead>
+            <tbody th:each="cartItem: ${cartItems}">
+            <tr>
+                <td> <span th:text="${cartItem.getUser().getId}"></span></td>
+                <td>
+                    <a th:href="@{/products/product_page(productId = ${cartItem.getProduct().getId()})}">
+                        <span th:text="${cartItem.getProduct().getName()}"></span>
+                    </a>
+                </td>
+                <td><span th:text="${cartItem.getProduct().getPrice()*cartItem.getProductCount()}"></span></td>
+                <td>
+                    <a th:href="@{/cart/increase(productId = ${cartItem.getProduct().getId()})}">
+                        <svg width="15" height="15" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" fill="white"/>
+                            <path d="M68.9 60.32C68.7461 60.3207 68.5935 60.2911 68.4511 60.2327C68.3087 60.1744 68.1792 60.0885 68.07 59.98L50.67 42.57C50.6364 42.5376 50.5916 42.5195 50.545 42.5195C50.4983 42.5195 50.4535 42.5376 50.42 42.57L33 60C32.779 60.2186 32.4808 60.3413 32.17 60.3413C31.8592 60.3413 31.5609 60.2186 31.34 60L30.18 58.8C30.0705 58.6913 29.9837 58.562 29.9244 58.4195C29.8651 58.2771 29.8346 58.1243 29.8346 57.97C29.8346 57.8157 29.8651 57.663 29.9244 57.5205C29.9837 57.3781 30.0705 57.2488 30.18 57.14L49.72 37.6C49.8287 37.4906 49.958 37.4037 50.1005 37.3444C50.2429 37.2852 50.3957 37.2546 50.55 37.2546C50.7043 37.2546 50.857 37.2852 50.9995 37.3444C51.1419 37.4037 51.2712 37.4906 51.38 37.6L70.92 57.14C71.0289 57.2489 71.1151 57.3783 71.1734 57.5208C71.2318 57.6633 71.2612 57.816 71.26 57.97C71.2611 58.1249 71.2306 58.2784 71.1704 58.4211C71.1103 58.5638 71.0216 58.6927 70.91 58.8L69.73 60C69.6195 60.1053 69.4893 60.1878 69.3469 60.2427C69.2044 60.2977 69.0526 60.3239 68.9 60.32ZM50.55 41.52C50.862 41.5223 51.1605 41.6482 51.38 41.87L68.78 59.27C68.7937 59.2906 68.8122 59.3076 68.834 59.3193C68.8559 59.331 68.8802 59.3371 68.905 59.3371C68.9297 59.3371 68.9541 59.331 68.9759 59.3193C68.9977 59.3076 69.0163 59.2906 69.03 59.27L70.21 58.09C70.2216 58.0509 70.2216 58.0092 70.21 57.97C70.2246 57.9313 70.2246 57.8887 70.21 57.85L50.67 38.3C50.6364 38.2676 50.5916 38.2495 50.545 38.2495C50.4983 38.2495 50.4535 38.2676 50.42 38.3L30.88 57.84C30.8516 57.8755 30.8361 57.9196 30.8361 57.965C30.8361 58.0105 30.8516 58.0545 30.88 58.09L32.07 59.27C32.085 59.287 32.1035 59.3007 32.1241 59.31C32.1448 59.3194 32.1673 59.3242 32.19 59.3242C32.2127 59.3242 32.2351 59.3194 32.2558 59.31C32.2765 59.3007 32.295 59.287 32.31 59.27L49.72 41.87C49.9395 41.6482 50.2379 41.5223 50.55 41.52Z" fill="#333333"/>
+                        </svg>
+                    </a>
+                    <span th:text="${cartItem.getProductCount()}"></span>
+                    <a th:href="@{/cart/decrease(productId = ${cartItem.getProduct().getId()})}">
+                        <svg width="15" height="15" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" fill="white"/>
+                            <path d="M48.83 62.44C48.676 62.4413 48.5233 62.4119 48.3808 62.3535C48.2383 62.2951 48.1088 62.2089 48 62.1L28.46 42.56C28.2382 42.3405 28.1123 42.0421 28.11 41.73C28.11 41.5753 28.141 41.4222 28.2011 41.2797C28.2612 41.1371 28.3492 41.008 28.46 40.9L29.64 39.72C29.8622 39.5038 30.16 39.3828 30.47 39.3828C30.78 39.3828 31.0778 39.5038 31.3 39.72L48.7 57.12C48.7335 57.1524 48.7784 57.1705 48.825 57.1705C48.8716 57.1705 48.9164 57.1524 48.95 57.12L66.35 39.72C66.4587 39.6106 66.588 39.5237 66.7305 39.4644C66.8729 39.4051 67.0257 39.3746 67.18 39.3746C67.3343 39.3746 67.487 39.4051 67.6295 39.4644C67.7719 39.5237 67.9012 39.6106 68.01 39.72L69.2 40.9C69.4162 41.1222 69.5372 41.42 69.5372 41.73C69.5372 42.04 69.4162 42.3378 69.2 42.56L49.66 62.1C49.5511 62.2089 49.4217 62.2951 49.2792 62.3535C49.1367 62.4119 48.984 62.4413 48.83 62.44ZM30.47 40.37C30.4249 40.3701 30.3818 40.3881 30.35 40.42L29.16 41.61C29.1281 41.6418 29.1101 41.685 29.11 41.73C29.112 41.7746 29.1297 41.8171 29.16 41.85L48.7 61.39C48.7335 61.4224 48.7784 61.4405 48.825 61.4405C48.8716 61.4405 48.9164 61.4224 48.95 61.39L68.49 41.85C68.507 41.835 68.5206 41.8165 68.53 41.7958C68.5393 41.7752 68.5442 41.7527 68.5442 41.73C68.5442 41.7073 68.5393 41.6849 68.53 41.6642C68.5206 41.6435 68.507 41.625 68.49 41.61L67.31 40.42C67.2745 40.3916 67.2304 40.3761 67.185 40.3761C67.1395 40.3761 67.0955 40.3916 67.06 40.42L49.66 57.83C49.4378 58.0463 49.14 58.1673 48.83 58.1673C48.52 58.1673 48.2222 58.0463 48 57.83L30.59 40.42C30.5582 40.3881 30.515 40.3701 30.47 40.37Z" fill="#333333"/>
+                        </svg>
+                    </a>
+                </td>
+                <td><a th:href="@{/cart/delete(productId = ${cartItem.getProduct().getId()} )}">
+                    <i class="fa-solid fa-x"></i></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <h2 style="text-align: center" th:if="${cartItems.isEmpty()}"> Корзина пуста</h2>
+        <div  class="sum_product" th:each="total : ${total}">
+            <p th:if="total!=0">Общая сумма: <span th:text="${total}"></span></p>
+        </div>
+    </div>
+    <h4 th:if="${cartItems.isEmpty()==false}" style="font-size: 20px;margin-bottom: 20px;margin-top: 20px"  class="cart_header">Напишите свой адрес, чтобы сделать заказ</h4>
+    <form th:if="${cartItems.isEmpty()==false}" class="cart_form" action="/order/order_resource" method="post">
+
+        <label style="margin-bottom: 10px" class="cart_label" for="address">Адрес</label>
+        <div style="width: 500px" class="input-group mb-3">
+            <input  name="address" id="address" type="text" class="form-control" placeholder="Адрес" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn  btn-primary" type="submit">Добавить</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="https://kit.fontawesome.com/a12b3513d4.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

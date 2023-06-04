@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .form-container {
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto;
+      border: 3px solid #007bff;
+      border-radius: 10px;
+      padding: 20px 20px;
+      box-shadow: #5e599a;
+      row-gap: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<form method="post" class="form-container" th:action="@{/login}">
+  <h2 style="font-size: 45px;margin-bottom: 20px">Авторизация</h2>
+  <input style="margin-bottom: 20px" class="form-control" type="text" name="login" placeholder="Логин">
+  <input style="margin-bottom: 20px" class="form-control" type="text" name="password" placeholder="Пароль">
+  <button style="margin-bottom: 10px" class="btn btn-primary" type="submit">Войти</button>
+</form>
+</body>
+</html>

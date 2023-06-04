@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Admin list</title>
+    <link  th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <th:block th:if="${#authorization.expr('isAuthenticated()')}">
+        <nav>
+            <ul class="topmenu">
+                <li><a  th:href="@{/profile}">Моя личная страница&nbsp;<i class="fa-solid fa-user"></i></a></li>
+                <li><a  th:href="@{/cart/cart_page}">Корзина<i class="fa-solid fa-cart-shopping"></i></a></li>
+                <li>
+                    <a sec:authorize="hasRole('admin')" th:href="@{/moderation/products}">Админ панель</a>
+                </li>
+                <li><a th:href="@{/logout}">Выйти</a></li>
+            </ul>
+        </nav>
+    </th:block>
+    <div class="return">
+            <a class="return-link" th:href="@{/products}"> &#9668; Назад</a>
+    </div>
+
+    <div class="table-container">
+        <h4 class="header_text">Изменение статуса заказа</h4>
+        <h2 th:if="${orders.isEmpty()}">В данный момент нет заказов</h2>
+        <div class="product-box">
+            <form class="admin_form" action="/admin/orders/change_order_status" method="post">
+                <div th:each="order : ${orders}" class="mb-3">
+                    <p>Имя пользователя: <span th:text="${order.getUser().getName()}"></span></p>
+                    <div th:each="order1:${order.getOrderProducts()}">
+                        <p>Название продукта: <span th:text="${order1.getProduct().getName()}"></span></p>
+                    </div>
+                    <input type="text" th:value="${order.getId()}" name="orderId" hidden>
+                    <p>Текущий статус заказа: <span th:text="${order.getStatus().getDisplayStatusName()}"></span></p>
+                    <select class="form-select mb-3" name="status">
+                        <option th:each="status : ${statuses}" th:text="${status.getDisplayStatusName()}"
+                                th:value="${status.name}"></option>
+                    </select>
+                    <button class="btn btn-primary" type="submit">Изменить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class Order {
     private String address;
 
     @Column(name = "created_date")
-    private LocalDateTime date;
+    private LocalDate date;
 
     @OneToMany(mappedBy = "order")
     private List<OrderProduct> orderProducts;

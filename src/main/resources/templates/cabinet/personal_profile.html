@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link  th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <nav>
+        <ul class="topmenu">
+            <li><a  th:href="@{/cart/cart_page}">Корзина<i class="fa-solid fa-cart-shopping"></i></a></li>
+            <li><a class="product_name" th:href="@{/products}">Страница продуктов</a></li>
+            <li><a th:href="@{/logout}">Выйти</a></li>
+        </ul>
+    </nav>
+    <div class="return">
+            <a class="return-link" th:href="@{/products}">	&#9668; Назад</a>
+    </div>
+    <div class="product-box">
+        <div class="product-description">
+            <p class="personal_name">Имя: <span th:text="${users.getName()}"></span></p>
+            <p class="personal_name">Фамилия: <span th:text="${users.getLastName()}"></span></p>
+            <p class="personal_text">Логин: <span th:text="${users.getLogin()}"></span></p>
+            <p class="personal_text">Дата регистрации: <span th:text="${users.getDate()}"></span></p>
+        </div>
+        <div class="product-band">
+
+        </div>
+    </div>
+    <div class="product-order">
+        <h3 class="personal_header2">Информация о ваших заказах:</h3>
+        <div class="personal_container2" th:each="order: ${orders}">
+            <p class="personal_title">Номер заказа:#<span th:text="${order.getId()}"></span></p>
+            <div class="product_name" th:each="product: ${order.getOrderProducts()}">
+                <p>Название продукта: <span th:text="${product.getProduct().getName()}"></span></p>
+            </div>
+            <p class="personal_order">Статус заказа: <span th:text="${order.getStatus().getDisplayStatusName()}"></span></p>
+            <p class="personal_order">Улица: <span th:text="${order.getAddress()}"></span></p>
+            <p class="personal_order">Дата оформления: <span th:text="${order.getDate()}"></span></p>
+            <a class="order-link" th:href="@{/profile/orders/{orderId}(orderId=${order.id})}">Подробнее &#8594;</a>
+        </div>
+    </div>
+
+
+    <div class="product-comment">
+        <h3 class="personal_header2" >Ваши комментарии:</h3>
+        <div class="personal_container3" th:each="comment:${comments}">
+            <p  class="personal_text">Название продукта: <span th:text="${comment.getProduct().getName()}"></span></p>
+            <p class="personal_text">Опубликован:
+                <span th:if="${comment.getPublished() == true}">Да</span>
+                <span th:if="${comment.getPublished() == false}">Нет</span>
+            </p>
+            <p class="personal_text">Ваша оценка: <span th:text="${comment.getRating()}"></span></p>
+            <p class="personal_text">Текст комментария: <span th:text="${comment.getText()}"></span></p>
+            <p class="personal_text">Дата добавления: <span th:text="${comment.getDate()}"></span></p>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://kit.fontawesome.com/a12b3513d4.js" crossorigin="anonymous"></script>
+
+</body>
+</html>
